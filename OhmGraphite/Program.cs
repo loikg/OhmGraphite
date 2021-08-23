@@ -108,10 +108,11 @@ namespace OhmGraphite
                 var writer = new TimescaleWriter(config.Timescale.Connection, config.Timescale.SetupTable, hostname);
                 return new MetricTimer(config.Interval, collector, writer);
             }
-            else if (config.File != null)
+            else if (config.Csv != null)
             {
-                Logger.Debug($"Using file config %s\n", config.File.Path);
-                return null;
+                var writer = new CsvWriter(config.Csv);
+                Logger.Info($"file path: {config.Csv.Path}");
+                return new MetricTimer(config.Interval, collector, writer);
             }
             else if (config.Influx != null)
             {

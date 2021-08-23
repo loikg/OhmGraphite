@@ -35,6 +35,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="CsvHelper" Version="27.1.1" />
     <PackageReference Include="InfluxDB.Client" Version="2.0.0" />
     <PackageReference Include="Npgsql" Version="5.0.7" />
     <PackageReference Include="prometheus-net" Version="4.2.0" />

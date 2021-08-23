@@ -2,20 +2,20 @@ using System;
 
 namespace OhmGraphite
 {
-    public class FileConfig
+    public class CsvConfig
     {
-        public FileConfig(string path)
+        public CsvConfig(string path)
         {
             Path = path;
         }
 
         public string Path { get; }
 
-        public static FileConfig ParseAppSettings(IAppConfig config)
+        public static CsvConfig ParseAppSettings(IAppConfig config)
         {
             string path = config["path"] ?? "metric.txt";
 
-            return new FileConfig(path);
+            return new CsvConfig(path);
         }
 
     }
