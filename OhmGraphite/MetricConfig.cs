@@ -13,7 +13,7 @@ namespace OhmGraphite
         private readonly INameResolution _nameLookup;
 
         public MetricConfig(TimeSpan interval, INameResolution nameLookup, GraphiteConfig graphite, InfluxConfig influx,
-            PrometheusConfig prometheus, TimescaleConfig timescale, Dictionary<string, string> aliases, List<Regex> hiddenSensors, Influx2Config influx2)
+            PrometheusConfig prometheus, TimescaleConfig timescale, Dictionary<string, string> aliases, List<Regex> hiddenSensors, Influx2Config influx2, FileConfig fileConfig)
         {
             _nameLookup = nameLookup;
             Interval = interval;
@@ -24,6 +24,7 @@ namespace OhmGraphite
             Aliases = aliases;
             HiddenSensors = hiddenSensors;
             Influx2 = influx2;
+            File = fileConfig;
         }
 
         public string LookupName() => _nameLookup.LookupName();
@@ -33,6 +34,7 @@ namespace OhmGraphite
         public Influx2Config Influx2 { get; }
         public PrometheusConfig Prometheus { get; }
         public TimescaleConfig Timescale { get; }
+        public FileConfig File { get; }
         public Dictionary<string, string> Aliases { get; }
         public List<Regex> HiddenSensors { get; }
 
@@ -54,6 +56,7 @@ namespace OhmGraphite
             PrometheusConfig pconfig = null;
             TimescaleConfig timescale = null;
             Influx2Config influx2 = null;
+            FileConfig fileConfig = null;
 
             switch (type.ToLowerInvariant())
             {
@@ -73,6 +76,9 @@ namespace OhmGraphite
                 case "timescale":
                 case "timescaledb":
                     timescale = TimescaleConfig.ParseAppSettings(config);
+                    break;
+                case "file":
+                    fileConfig = FileConfig.ParseAppSettings(config);
                     break;
             }
 
@@ -96,7 +102,7 @@ namespace OhmGraphite
                     RegexOptions.IgnoreCase | RegexOptions.Singleline
                 )).ToList();
 
-            return new MetricConfig(interval, nameLookup, gconfig, iconfig, pconfig, timescale, aliases, hiddenSensors, influx2);
+            return new MetricConfig(interval, nameLookup, gconfig, iconfig, pconfig, timescale, aliases, hiddenSensors, influx2, fileConfig);
         }
 
         private static INameResolution NameLookup(string lookup)
