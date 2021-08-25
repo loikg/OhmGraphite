@@ -13,8 +13,7 @@ namespace OhmGraphite
 
         public static CsvConfig ParseAppSettings(IAppConfig config)
         {
-            string path = config["path"] ?? "metric.txt";
-
+            string path = config["path"] ?? "metric.csv";
             return new CsvConfig(path);
         }
 
